@@ -1,8 +1,13 @@
-
-
 let clearBtn = document.querySelector('.clearGrid');
-
 clearBtn.addEventListener('click', clearGrid);
+
+let radios = document.querySelectorAll('input');
+
+radios.forEach(radio => {
+    radio.addEventListener('click', ()=>{
+        changeColor()
+    })
+})
 
 function generateLayout(numDivs){
     console.log(numDivs)
@@ -35,25 +40,45 @@ function clearGrid(){
 }
 
 function generateNewDimensions(){
-    let dimensions = +prompt(`Please Enter new Dimensions`);
+    let dimensions;
+   do {
+    dimensions = +prompt(`Please Enter new Dimensions`);
+   } while (dimensions > 100 || dimensions == ''); 
+     
     console.log(`Dimension ${typeof dimensions}`)
     generateLayout(dimensions);
     changeColor();
 }
 
-function main(){
-   generateLayout(10);
-   changeColor();
-}
-
 function changeColor(){
     let myDivs = document.querySelectorAll('.myDiv');
+    let radioColor = document.querySelector('color');
 
-    myDivs.forEach(element =>{
-        element.addEventListener('mouseover', (e)=>{
-         element.style.backgroundColor = 'red';
+    if(document.querySelector('#color').checked){
+        myDivs.forEach(element =>{
+            element.addEventListener('mouseover', (e)=>{
+             element.style.backgroundColor = `#${getRandomColor()}`;
+            })
         })
-    })
+    } else if(document.querySelector('#monochrome').checked){
+        myDivs.forEach(element =>{
+            element.addEventListener('mouseover', (e)=>{
+             element.style.backgroundColor = 'black';
+            })
+        })
+    }
 }
 
-main()
+function getRandomColor(){
+    return Math.floor(Math.random()*16777215).toString(16); 
+}
+
+// function main(){
+//    generateLayout(10);
+//    changeColor();
+// }
+
+generateLayout(10);
+changeColor();
+
+// main()
